@@ -17,6 +17,12 @@ body{
     /* background-size: cover;   */
 }
 
+
+/*  ==================
+        sidebar
+    ==================  */
+
+
 .sidebar{
     height: 100%;
     width: var(--nav-width);
@@ -80,6 +86,9 @@ body{
     background-color: inherit;
 }
 
+/*  ==================
+        main body
+    ==================  */
 
 .main{
     margin-left: var(--nav-width);
@@ -98,12 +107,12 @@ body{
         padding: 0;
     }
 
-    .main{
-        /* margin: 0; */
-        margin:var(--nav-height) 5%;
 
-        padding:0;
-    }
+
+    /*  ==================
+        sidebar
+    ==================  */
+    
     .sidebar{
         width: 100%;
         height: var(--nav-height);
@@ -154,5 +163,12 @@ body{
     .sidebar a{
         padding: 0 10px;
         line-height: var(--nav-height);
+    }
+
+    .main{
+        /* margin: 0; */
+        margin:var(--nav-height) 5%;
+
+        padding:0;
     }
 }

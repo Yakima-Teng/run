@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>登入</title>
@@ -12,11 +12,14 @@
             $("form").submit(function (event) {
                 event.preventDefault();
                 // console.log($(this).serialize());
-                $.post("php/login.php", $(this).serialize(), function (response) {
+                $.post("php/login.php", $(this).serialize(), function (result) {
                     // console.log(response);
-                    window.location.href = "panel.php";
-                }
-                );
+                    if (result == "LOGGED") {    //succeed
+                        window.location.href = "panel.php";
+                    } else if (result=="NO_USER") {
+
+                    }
+                });
             });
         });
     </script>
