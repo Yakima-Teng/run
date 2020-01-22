@@ -70,24 +70,44 @@ class DB
      */
     public function query(string $sql, $params = array())
     {
+        // echo "<br>", $sql, "<br>";
+        // print_r($params);
         $this->_error = false;
-        $this->_query = $this->_pdo->prepare($sql);
+        $this->_results = array();  //reset all data from previous query
+        $this->_count = 0;
 
-        $i = 1;
-        if (count($params)) {
-            foreach ($params as $param) {   //only sends in value, doesn't care about key
-                $this->_query->bindValue($i++, $param);
+
+        // $sql = "SELECT * FROM `runner` WHERE `id` = ? ";
+        // $params = array('id'=>1);
+        if ($this->_query = $this->_pdo->prepare($sql)) {
+            $i = 1;
+            if (count($params)) {
+                foreach ($params as $param) {   //only sends in value, doesn't care about key
+                    $this->_query->bindValue($i++, $param);
+                }
             }
+
+            if ($this->_query->execute()) {                       //執行並成功
+                // echo "execute succeess";
+                $this->_results = $this->_query->fetchAll();    //結果取回
+                $this->_count = $this->_query->rowCount();      //結果數量
+    
+            //    print_r($this->_results);
+            } else {
+                $this->_error = true;
+
+                echo "execute fail";
+
+            }
+
+            return $this;
         }
 
-        if ($this->_query->execute()) {                       //執行並成功
-            $this->_results = $this->_query->fetchAll();    //結果取回
-            $this->_count = $this->_query->rowCount();      //結果數量
-        } else {
-            $this->_error = true;
-        }
+    }
 
-        return $this;
+    public function firstResult()
+    {
+        return $this->_results[0];
     }
 
     /**
@@ -103,6 +123,7 @@ class DB
     public function get($table, $condition)
     {    //condition = array('id','=','10')
         // get '=', '>', '<'
+
         $column = $condition[0];
         $param = $condition[2];
         $compareSymble = $condition[1];
@@ -122,7 +143,7 @@ class DB
                 return $this;
         }
         // echo "SELECT * FROM ${table} WHERE ${column} ${operator} ? ";
-        return $this->query("SELECT * FROM ${table} WHERE ${column} ${operator} ? ", array($param));
+        return $this->query("SELECT * FROM `${table}` WHERE `${column}` ${operator} ? ", array($param));
 
     }
 
@@ -133,10 +154,10 @@ class DB
      * 則Query 為
      * "SELECT *  FROM table LIMIT 15, 10"
      */
-    public function getSeveral($table, $from, $get)
+    public function getSeveral($table, $from = 1, $get = 30)
     {  //get from 16~25 (10) is
         $offset = $from - 1;
-        return $this->query("SELECT * FROM ${table} LIMIT ${offset}, ${get}");
+        return $this->query("SELECT * FROM `${table}` LIMIT ${offset}, ${get}");
     }
 
     public function insert($table, $params = array())
@@ -150,7 +171,7 @@ class DB
         $i = 1;
         $len = count($params);
         foreach ($params as $index => $param) {
-            $columnString .= " \"${index}\" ";
+            $columnString .= " `${index}` ";
             $valueString .= "?";
             if ($i++ < $len) {
                 $columnString .= ",";
@@ -172,18 +193,19 @@ class DB
      * update($table, $condition=array("col3","=","true"), $params=array("col1"=>"", "col2"=>"", "col3"=>"true") )
      * 
      */
-    public function update($table, $condition, $params){
+    public function update($table, $condition, $params)
+    {
 
         $paramToQuery = array();    //the array to send to the query function
                                     // {condition value}, 
 
         //between SET and WHERE
         $alterString = "";
-        $i=1;
+        $i = 1;
         $len = count($params);
-        foreach ($params as $index=>$param) {
-            $alterString .= " \"${index}\"=? ";
-            if($i++<$len){
+        foreach ($params as $index => $param) {
+            $alterString .= " `${index}`=? ";
+            if ($i++ < $len) {
                 $alterString .= ",";
             }
             $paramToQuery[$index] = $param; //append
@@ -208,7 +230,7 @@ class DB
                 $this->_error = true;
                 return $this;
         }
-        $conditionString = "\"${column}\" ${operator} ?";
+        $conditionString = "`${column}` ${operator} ?";
         $paramToQuery[$column] = $param;
 
         $sql = "UPDATE `${table}` SET ${alterString} WHERE $conditionString";
@@ -216,9 +238,5 @@ class DB
         // echo "<br>";
         // print_r($paramToQuery);
         $this->query($sql, $paramToQuery);
-
-
-
-
     }
 }

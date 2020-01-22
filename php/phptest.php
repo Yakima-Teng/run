@@ -2,6 +2,12 @@
 require_once 'core/init.php';
 
 $db = DB::singleton();
-$params = array("first"=>1, "second"=>3, "third"=>5, "forth"=>7);
+$params = array(
+    "run_group"=>"10",
+);
 
-$db->update("runner", $condition=array("col3","=","true"), $params);
+// $db->update("runner", $condition=array("number","=","24"), $params);
+// $db->insert("runner", $params);
+$s = $db->getSeveral("runner");
+// $s = $db->get("runner", array("id","=",1))->firstResult();
+print_r($s);
