@@ -110,17 +110,26 @@ class DB
         return $this->_results[0];
     }
 
+    public function getResults(){
+        return $this->_results;
+    }
+
+    public function count(){
+        return $this->_count;
+
+    }
+
     /**
      * Syntax candy - get
      * 
      * 把要向資料庫擷取資料的sql語法
      * query("SELECT * FROM table WHERE XXX", param)
      * 簡化成
-     * get($table, where)
+     * select($table, where)
      * 
      * 目前只有一個搜尋條件，要很多個你自己寫
      */
-    public function get($table, $condition)
+    public function select($table, $condition)
     {    //condition = array('id','=','10')
         // get '=', '>', '<'
 
@@ -154,7 +163,7 @@ class DB
      * 則Query 為
      * "SELECT *  FROM table LIMIT 15, 10"
      */
-    public function getSeveral($table, $from = 1, $get = 30)
+    public function selectSeveral($table, $from = 1, $get = 30)
     {  //get from 16~25 (10) is
         $offset = $from - 1;
         return $this->query("SELECT * FROM `${table}` LIMIT ${offset}, ${get}");
