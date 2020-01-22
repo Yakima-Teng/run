@@ -28,6 +28,12 @@ $GLOBALS['config']=array(       //$GLOBALS 表示他是全域變數
         'username'=>'root',     //  資料庫登入帳密
         'password'=>''
     ),
+    'tables'=>array(
+        'runner'=>'runner',     //跑者資料庫
+        'staff'=>'staff',       //工作人員資料庫
+        'squad'=>'run_group',   //跑團資料庫
+        'type'=>'run_type'      //路跑類別（挑戰組、樂活組etc）
+    ),
     'remember'=>array(
         'cookie_name'=>'hash',
         'cookie_expiry'=>'86400'    //cookie 一天後過期

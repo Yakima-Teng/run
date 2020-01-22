@@ -1,49 +1,62 @@
 <?php
 require_once 'core/init.php';
 
-// $db = DB::singleton();
-// $params = array(
-//     "run_group"=>"10",
-// );
+print_r(DB::singleton()->selectSeveral('runner',4,3)->getResults());
+// DB::singleton()->update('runner',['altered'=>0], $condition = ['run_group','=',46]);
 
-// $db->update("runner", $condition=array("number","=","24"), $params);
-// $db->insert("runner", $params);
-// $s = $db->selectSeveral("runner")->getResults();
-// print_r($s);
-// $s = $db->select("runner", array("id","=",1))->firstResult();
 
-// $v = array(Validate::REQUIRED=>true, Validate::MATCH=>'password');
+if (Input::exist()) {
+    echo "yee";
+    $v = new Validate();
+    $v->check($_POST, array(
+        'number' => array(
+            Validate::REQUIRED => true,
+            Validate::UNIQUE => "runner/number",
+            Validate::MAX => 4,
+            Validate::TYPE=>Validate::NUMBER
 
-$source = array(
-    'number'=>'204',
-    'B'=>'12345',
-    'C'=>'8個字元的啦',
-    'D'=>'204'
-);
+        ),
+        'name' => array(
+            Validate::REQUIRED => true,
+            Validate::MAX => 20,
+            Validate::MIN => 2
 
-$validation = new Validate();
 
-$validation->check($source, array(
-    'number'=>array(
-        Validate::REQUIRED => true,
-        Validate::UNIQUE =>"runner/number"
-    ),
-    'B'=>array(
-        Validate::REQUIRED => true,
-        Validate::MIN=> 4,
-        
-    ),
-    'C'=>array(
-        Validate::REQUIRED => true,
-        Validate::MAX=> 8,
-        Validate::MIN=> 4,
-    ),
-    'D'=>array(
-        Validate::REQUIRED => true,
-        Validate::MATCH=>'number'
-    )
-));
+        ),
+        'run_group' => array(
+            Validate::MAX => 10,
+            Validate::TYPE=>Validate::NUMBER
 
-$result = $validation->getError();
-print_r($result);
+        )
+    ));
+
+    if (count($v->getError()) == 0) {
+        DB::singleton()->insert('runner', $_POST);
+    }else{
+        print_r ($v->getError());
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>測試用</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <form action="" method="POST" id="t">
+        <p>背號</p>
+        <input type="text" name="number" value=<?php echo Input::get('number') ?>>
+        <p>姓名</p>
+        <input type="text" name="name" value=<?php echo Input::get('name') ?>>
+        <p>跑團</p>
+        <input type="text" name="run_group" value=<?php echo Input::get('run_group') ?>>
+        <input type="submit" value="增加">
+    </form>
+
+    
+</body>
+</html>
 

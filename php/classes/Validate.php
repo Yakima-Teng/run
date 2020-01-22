@@ -40,6 +40,12 @@ class Validate{
     const TYPE          =6;
     const validationMsg = ['','required', 'exceed max', 'below min','not unique','not match','wrong type'];
 
+    //types of TYPE
+    const NUMBER        =1;
+    const TEL           =2;
+    const EMAIL         =3;
+
+
     public function __construct()
     {
         $this->_db = DB::singleton();    //refer to database to check uniqueness
@@ -82,7 +88,8 @@ class Validate{
                 /**
                  * $rule is like [Validate::REQUIRED] => true
                  */
-                $value = $source[$field];   // 取得在$source裡面要檢查的項目(field)的值
+                
+                 $value = escape($source[$field]);   // 取得在$source裡面要檢查的項目(field)的值
 
                 //如果必填但沒填，其他都不用檢查了（尤其最小）
                 if ($rule == true && empty($value)) {
@@ -125,7 +132,26 @@ class Validate{
                             break;
 
                         case self::TYPE:
-                            //先懶得寫
+                            switch ($rule){
+                                case self::NUMBER:
+                                
+                                if(!is_numeric($value)){
+                                    $this->addError($field, $rule_name);
+                                }
+                                break;
+
+                                case self::TEL:
+                                if(!preg_match("/^09\d{8}$/", $value)){
+                                    $this->addError($field, $rule_name);
+                                }
+                                break;
+
+                                case self::EMAIL:
+                                if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                                    $this->addError($field, $rule_name);
+                                }
+                                break;
+                            }
                             break;
 
                     }

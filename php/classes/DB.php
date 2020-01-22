@@ -87,7 +87,7 @@ class DB
                 }
             }
 
-            if ($this->_query->execute()) {                       //執行並成功
+            if ($this->_query->execute()) {                     //執行並成功
                 // echo "execute succeess";
                 $this->_results = $this->_query->fetchAll();    //結果取回
                 $this->_count = $this->_query->rowCount();      //結果數量
@@ -120,7 +120,7 @@ class DB
     }
 
     /**
-     * Syntax candy - get
+     * Syntax candy - select
      * 
      * 把要向資料庫擷取資料的sql語法
      * query("SELECT * FROM table WHERE XXX", param)
@@ -129,30 +129,26 @@ class DB
      * 
      * 目前只有一個搜尋條件，要很多個你自己寫
      */
-    public function select($table, $condition)
+    public function select($table, $condition = array())
     {    //condition = array('id','=','10')
         // get '=', '>', '<'
 
-        $column = $condition[0];
-        $param = $condition[2];
-        $compareSymble = $condition[1];
-        $operator = "";
-        switch ($compareSymble) {
-            case "=":
-                $operator = "=";
-                break;
-            case ">":
-                $operator = ">";
-                break;
-            case "<":
-                $operator = "<";
-                break;
-            default:
+        if (empty($condition)) {
+            return $this->query("SELECT * FROM `${table}`");
+
+        } else {
+
+            $conditionString = self::conditionString($condition);   //conditionString already includes "WHERE"
+            if (empty($conditionString)) {  //error
                 $this->_error = true;
-                return $this;
+                return false;
+            } 
+            $param = $condition[2];
+            return $this->query("SELECT * FROM `${table}` WHERE ${conditionString}", array($param));
+
         }
-        // echo "SELECT * FROM ${table} WHERE ${column} ${operator} ? ";
-        return $this->query("SELECT * FROM `${table}` WHERE `${column}` ${operator} ? ", array($param));
+
+
 
     }
 
@@ -163,10 +159,26 @@ class DB
      * 則Query 為
      * "SELECT *  FROM table LIMIT 15, 10"
      */
-    public function selectSeveral($table, $from = 1, $get = 30)
+    public function selectSeveral($table, $from = 1, $get = 30, $condition = array())
     {  //get from 16~25 (10) is
+
         $offset = $from - 1;
-        return $this->query("SELECT * FROM `${table}` LIMIT ${offset}, ${get}");
+
+        if(empty($condition)){
+            return $this->query("SELECT * FROM `${table}` LIMIT ${offset}, ${get}");
+        }else{
+            $conditionString = self::conditionString($condition);
+            if (empty($conditionString)) {
+                $this->_error = true;
+                return false;
+            }else{
+                $param = $condition[2];
+            }
+            return $this->query("SELECT * FROM `${table}` WHERE ${conditionString} LIMIT ${offset}, ${get}", array($param) );
+        }
+
+
+
     }
 
     public function insert($table, $params = array())
@@ -202,7 +214,7 @@ class DB
      * update($table, $condition=array("col3","=","true"), $params=array("col1"=>"", "col2"=>"", "col3"=>"true") )
      * 
      */
-    public function update($table, $condition, $params)
+    public function update($table, $params, $condition=array())
     {
 
         $paramToQuery = array();    //the array to send to the query function
@@ -220,32 +232,50 @@ class DB
             $paramToQuery[$index] = $param; //append
         }
 
-        //after WHERE
-        $column = $condition[0];
-        $param = $condition[2];
-        $compareSymble = $condition[1];
-        $operator = "";
-        switch ($compareSymble) {
-            case "=":
-                $operator = "=";
-                break;
-            case ">":
-                $operator = ">";
-                break;
-            case "<":
-                $operator = "<";
-                break;
-            default:
-                $this->_error = true;
-                return $this;
-        }
-        $conditionString = "`${column}` ${operator} ?";
-        $paramToQuery[$column] = $param;
+        if (empty($condition)) {
+            $sql = "UPDATE `${table}` SET ${alterString}";
 
-        $sql = "UPDATE `${table}` SET ${alterString} WHERE $conditionString";
-        // echo $sql;
-        // echo "<br>";
-        // print_r($paramToQuery);
+        } else {
+            $conditionString = self::conditionString($condition);
+            if (empty($conditionString)) {
+                $this->_error = true;
+                return false;
+            }
+            $column = $condition[0];
+            $param = $condition[2];
+            $paramToQuery[$column] = $param;
+            $sql = "UPDATE `${table}` SET ${alterString} WHERE $conditionString";
+
+        }
+    // echo $sql;
+    // echo "<br>";
+    // print_r($paramToQuery);
         $this->query($sql, $paramToQuery);
+    }
+
+    public static function conditionString($condition)
+    {
+        if (!empty($condition)) {
+            $column = $condition[0];
+            $param = $condition[2];
+            $compareSymble = $condition[1];
+            $operator = "";
+            switch ($compareSymble) {
+                case "=":
+                    $operator = "=";
+                    break;
+                case ">":
+                    $operator = ">";
+                    break;
+                case "<":
+                    $operator = "<";
+                    break;
+                default:
+                    return false;       //error condition -> return false
+            }
+        return "`${column}` ${operator} ?";
+        }else{
+            return " ";      //condition not set -> return space
+        }
     }
 }
