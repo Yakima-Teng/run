@@ -1,12 +1,21 @@
 <?php
 require_once 'core/init.php';
 
-print_r(DB::singleton()->selectSeveral('runner',4,3)->getResults());
-// DB::singleton()->update('runner',['altered'=>0], $condition = ['run_group','=',46]);
+// //新增跑者
+// $r = new Runner();
+// $r->add($_POST);
 
+// //更改跑者資料
+// $r->alter($number = '1234', array('alter'=>0, 'run_type'=>1, 'name'=>"改過的名字"));
+
+//顯示下一筆跑者資料
+// $rt1 = new RunType();  //樂活組
+
+
+
+// DB::singleton()->delete('runner', ['number','=','3333']);
 
 if (Input::exist()) {
-    echo "yee";
     $v = new Validate();
     $v->check($_POST, array(
         'number' => array(
@@ -14,7 +23,6 @@ if (Input::exist()) {
             Validate::UNIQUE => "runner/number",
             Validate::MAX => 4,
             Validate::TYPE=>Validate::NUMBER
-
         ),
         'name' => array(
             Validate::REQUIRED => true,
@@ -25,13 +33,16 @@ if (Input::exist()) {
         ),
         'run_group' => array(
             Validate::MAX => 10,
-            Validate::TYPE=>Validate::NUMBER
-
+        ),
+        'run_type'  => array(
+            Validate::EXIST=>"run_type/name"
         )
     ));
 
     if (count($v->getError()) == 0) {
-        DB::singleton()->insert('runner', $_POST);
+        $r = new Runner();
+        $r->add($_POST);
+
     }else{
         print_r ($v->getError());
     }
@@ -53,6 +64,12 @@ if (Input::exist()) {
         <input type="text" name="name" value=<?php echo Input::get('name') ?>>
         <p>跑團</p>
         <input type="text" name="run_group" value=<?php echo Input::get('run_group') ?>>
+        <p>組別</p>
+        <select name="run_type">
+            <option value="挑戰組">挑戰組</option>
+            <option value="樂活組">樂活組</option>
+        </select>
+        <br>      <br>
         <input type="submit" value="增加">
     </form>
 

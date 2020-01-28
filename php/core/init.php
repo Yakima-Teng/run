@@ -24,7 +24,7 @@ session_start();
 $GLOBALS['config']=array(       //$GLOBALS 表示他是全域變數
     'mysql'=>array(
         'host'=>'127.0.0.1',    //  127.0.0.1表示連接到本地伺服器
-        'db'=>'runner',         //  到時候每一年都會創造一個新的資料庫
+        'db'=>'2020',         //  到時候每一年都會創造一個新的資料庫
         'username'=>'root',     //  資料庫登入帳密
         'password'=>''
     ),
@@ -33,6 +33,27 @@ $GLOBALS['config']=array(       //$GLOBALS 表示他是全域變數
         'staff'=>'staff',       //工作人員資料庫
         'squad'=>'run_group',   //跑團資料庫
         'type'=>'run_type'      //路跑類別（挑戰組、樂活組etc）
+    ),
+    'type'=>array(
+        1=>'挑戰組',2=>'樂活組'
+    ),
+    'column'=>array(
+        'runner'=>array(
+            'id'        =>'id',
+            'number'    =>'number',
+            'squad'     =>'run_group',
+            'endtime'   =>'endtime',
+            'altered'   =>'altered',
+            'type'      =>'run_type'
+        ),
+        'staff'=>array(
+            'id'        =>'id',
+            'uid'       =>'uid',
+            'password'  =>'password',
+            'group'     =>'group'
+        ), 
+        'squad'=>array(), 
+        'type'=>array()
     ),
     'remember'=>array(
         'cookie_name'=>'hash',

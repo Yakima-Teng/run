@@ -36,9 +36,10 @@ class Validate{
     const MAX           =2;
     const MIN           =3;
     const UNIQUE        =4;
-    const MATCH         =5;
-    const TYPE          =6;
-    const validationMsg = ['','required', 'exceed max', 'below min','not unique','not match','wrong type'];
+    const EXIST         =5;
+    const MATCH         =6;
+    const TYPE          =7;
+    const validationMsg = ['','required', 'exceed max', 'below min','not unique','not exist','not match','wrong type'];
 
     //types of TYPE
     const NUMBER        =1;
@@ -113,7 +114,7 @@ class Validate{
                             break;
 
                         case self::UNIQUE:
-                            //資料庫中有重複的
+                            //資料庫中不能有重複的
                             //這裡rule要長得像 "table/column"
                             $table = explode("/",$rule)[0];
                             $column = explode("/", $rule)[1];
@@ -122,7 +123,18 @@ class Validate{
                                 $this->addError($field, $rule_name);
                             }
                             break;
+                        
+                        case self::EXIST:
+                            //要出現在資料庫中
+                            //這裡rule要長得像 "table/column"
+                            $table = explode("/",$rule)[0];
+                            $column = explode("/", $rule)[1];
 
+                            if($this->_db->select($table, array($column,"=",$value))->count()==0){
+                                $this->addError($field, $rule_name);
+                            }
+                        break;
+                        
                         case self::MATCH:
                             //用在像是驗證「再次輸入密碼」
                             //這裡rule會是另一個field

@@ -159,22 +159,59 @@ class DB
      * 則Query 為
      * "SELECT *  FROM table LIMIT 15, 10"
      */
-    public function selectSeveral($table, $from = 1, $get = 30, $condition = array())
+    public function selectSeveral($table, $from = 1, $get = 30, $condition = array(), $order = array())
     {  //get from 16~25 (10) is
-
         $offset = $from - 1;
 
-        if(empty($condition)){
-            return $this->query("SELECT * FROM `${table}` LIMIT ${offset}, ${get}");
-        }else{
-            $conditionString = self::conditionString($condition);
-            if (empty($conditionString)) {
-                $this->_error = true;
-                return false;
+        if(empty($order)){
+            if(empty($condition)){
+                return $this->query("SELECT * FROM `${table}` LIMIT ${offset}, ${get}");
             }else{
-                $param = $condition[2];
+                $conditionString = self::conditionString($condition);
+                if (empty($conditionString)) {
+                    $this->_error = true;
+                    return false;
+                }else{
+                    $param = $condition[2];
+                }
+                return $this->query("SELECT * FROM `${table}` WHERE ${conditionString} LIMIT ${offset}, ${get}", array($param) );
             }
-            return $this->query("SELECT * FROM `${table}` WHERE ${conditionString} LIMIT ${offset}, ${get}", array($param) );
+        }else{
+            /**
+             * 有排序 $order = ['type'=>A, 'number'=>D]<=依序由type, order 來排序...
+             */
+
+             $orderString = "";
+             $i = 1;
+             $len = count($order);
+             foreach($order as $col=>$dir){
+                $orderString .= "`${col}` ";
+                switch($dir){
+                    case 'A':
+                    $orderString .= "ASC";
+                    break;
+                    case 'D':
+                    $orderString .= "DESC";
+                    break;
+                }
+                if($i++<$len){
+                    $orderString.=", ";
+                }
+             }
+    
+            if(empty($condition)){
+                return $this->query("SELECT * FROM `${table}` ORDER BY ${orderString} LIMIT ${offset}, ${get}");
+            }else{
+                $conditionString = self::conditionString($condition);
+                if (empty($conditionString)) {
+                    $this->_error = true;
+                    return false;
+                }else{
+                    $param = $condition[2];
+                }
+                return $this->query("SELECT * FROM `${table}` WHERE ${conditionString} ORDER BY ${orderString} LIMIT ${offset}, ${get}", array($param) );
+            }
+            
         }
 
 
@@ -250,7 +287,14 @@ class DB
     // echo $sql;
     // echo "<br>";
     // print_r($paramToQuery);
-        $this->query($sql, $paramToQuery);
+        return $this->query($sql, $paramToQuery);
+    }
+
+    public function delete($table, $condition = array()){
+
+        $conditionString = $this->conditionString($condition);
+        $this->query(" DELETE FROM `${table}` WHERE ${conditionString}", array($condition[2]));
+
     }
 
     public static function conditionString($condition)
