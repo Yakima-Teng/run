@@ -11,9 +11,21 @@ require_once 'core/init.php';
 //顯示下一筆跑者資料
 // $rt1 = new RunType();  //樂活組
 
-
+// $rt = new RunType(1);
+// $rt->reset();
 
 // DB::singleton()->delete('runner', ['number','=','3333']);
+
+// echo(password_hash('123', PASSWORD_DEFAULT));
+
+$u = new Staff('admin');
+if($u->exist()){
+    if(    $u->login('admin')    ){
+
+        echo "logged in";
+    }
+}
+
 
 if (Input::exist()) {
     $v = new Validate();
@@ -40,8 +52,8 @@ if (Input::exist()) {
     ));
 
     if (count($v->getError()) == 0) {
-        $r = new Runner();
-        $r->add($_POST);
+        Runner::singleton()->add($_POST);
+        $_POST = [];
 
     }else{
         print_r ($v->getError());

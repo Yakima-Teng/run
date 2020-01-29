@@ -1,5 +1,5 @@
 <?php 
-session_start();
+require_once 'php/core/init.php';
 ob_start();
 ?>
 
@@ -19,7 +19,7 @@ ob_start();
     if (isset($_SESSION['user']) && $_SESSION['user']=='admin'){
         require "php/seperate/load_main.php" ;
     }else{
-        header("Location: login.html");
+        header("Location: login.php");
     }
     ?>
     

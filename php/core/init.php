@@ -74,7 +74,7 @@ $GLOBALS['config']=array(       //$GLOBALS 表示他是全域變數
  *******************************************/
 
  spl_autoload_register(function($class){
-    require_once 'classes/' . $class . '.php';
+    require_once  __DIR__ . '/../classes/' . $class . '.php';   //__DIR__ gets the absolute position of the file
  });
 
- require_once 'functions/sanitize.php';
+ require_once __DIR__ . '/../functions/sanitize.php';

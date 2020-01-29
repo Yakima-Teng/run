@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 <head>
     <title>登入</title>
@@ -12,13 +11,22 @@
             $("form").submit(function (event) {
                 event.preventDefault();
                 // console.log($(this).serialize());
+                $("input").removeClass('error');
                 $.post("php/login.php", $(this).serialize(), function (result) {
-                    // console.log(response);
-                    if (result == "LOGGED") {    //succeed
+                    console.log(result);
+                    if(result == "SUCCESS"){
                         window.location.href = "panel.php";
-                    } else if (result=="NO_USER") {
-
+                    }else if(result == "WRONG_PWD"){
+                        $("#pwd").addClass("error");
+                        alert("密碼錯誤")
+                    }else if(result == "NOT_ADMIN"){
+                        $("#uid").addClass("error");
+                        alert("非管理員")
+                    }else if(result == "NO_USER"){
+                        $("#uid").addClass("error");
+                        alert("無此帳號，請洽主辦單位")
                     }
+                    $("#pwd").val("");
                 });
             });
         });
@@ -34,7 +42,8 @@
             <img src="logo.png" class="logo">
             <h2>管理員登入</h2>
         </div>
-        <form>
+
+        <form action="" method="post">
             <div class="inputBox">
                 <label>帳戶</label>
                 <input id="uid" type="text" name="uid">
@@ -45,6 +54,7 @@
             </div>
             <input type="submit" name="submit" value="登入">
         </form>   
+
     </div>
 </body>
 </html>

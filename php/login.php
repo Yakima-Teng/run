@@ -1,21 +1,36 @@
 <?php
-// header("Location: ../logo.png");
-if (isset($_POST['uid'])) {
-    session_start();
-    $uid = $_POST['uid'];
-    $pwd = $_POST['pwd'];
+require_once 'core/init.php';
 
-    if($uid=="ted" && $pwd=="123"){
-        $_SESSION['user'] = 'admin';
-        echo "LOGGED";
+if(Input::exist('post')){
+
+    $validate = new Validate();
+    $validation = $validate->check($_POST, array(
+        'uid'=>[Validate::REQUIRED=>true],
+        'pwd'=>[Validate::REQUIRED=>true]
+    ));
+
+    if ($validate->passed()) {
+        $uid = Input::get('uid');
+        $password = Input::get('pwd');
+
+        $staff = new Staff($uid);
+
+        if ($staff->exist()) {
+            if ($staff->auth(Staff::ADMIN)) {
+                if ($staff->login($password)) {
+                    Session::set('user', 'admin');
+                    // Session::set('username', $->name);
+                    echo "SUCCESS";
+                } else {
+                    echo "WRONG_PWD";
+                }
+            } else {
+                echo "NOT_ADMIN";
+            }
+        } else {
+            echo "NO_USER";
+        }
     }
-} elseif(){ //no user
-    echo "NO_USER";
-}elseif(){  //wrong password
-    echo "WRONG_PASSWORD";
-}else{
-    echo "ERROR"
+
 }
-
-
 ?>

@@ -1,3 +1,8 @@
+<?php
+require_once 'php/core/init.php';
+?>
+
+
 <script src="js/tag.js"></script>
 <div class="sidebar">
     <img src="logo.png" id="sidebar-logo">
@@ -16,6 +21,12 @@
         <h1>1</h1>
         <p>這邊放登記、補給站狀況、時間等等</p>
         <h1>1</h1>
+        <?php 
+            if(DB::singleton()->select('runner', ['number','=','123'])->count()){
+                echo "<h1>有123</h1>";
+            }
+
+        ?>
         <p>這邊放登記、補給站狀況、時間等等</p>
         <h1>1</h1>
         <p>這邊放登記、補給站狀況、時間等等</p>

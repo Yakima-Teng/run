@@ -66,6 +66,11 @@ input:focus{
     transition: 0.15s all ease;
 }
 
+
+input.error{
+    background: linear-gradient(21deg, #f87878, #f8e9ce);
+}
+
 input[type="submit"]{
     font-family: inherit;
 }

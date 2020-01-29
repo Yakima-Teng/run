@@ -173,6 +173,11 @@ class Validate{
 
     }
 
+    public function passed()
+    {
+        return (count($this->_errors) == 0) ? true : false;
+    }
+
     private function addError($field, $eCode){
         $this->_errors[$field][] = self::validationMsg[$eCode]; // human readable debug message
         // $this->_errors[$field][] = $eCode;
