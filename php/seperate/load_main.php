@@ -1,9 +1,3 @@
-<?php
-require_once 'php/core/init.php';
-?>
-
-
-<script src="js/tag.js"></script>
 <div class="sidebar">
     <img src="logo.png" id="sidebar-logo">
     <span>路跑管理系統</span>
@@ -18,30 +12,31 @@ require_once 'php/core/init.php';
 </div>
 <div class="main">
     <div id="overall">
-        <h1>1</h1>
-        <p>這邊放登記、補給站狀況、時間等等</p>
-        <h1>1</h1>
-        <?php 
-            if(DB::singleton()->select('runner', ['number','=','123'])->count()){
-                echo "<h1>有123</h1>";
-            }
+    <!-- 挑戰組vs樂活組主控區 -->
+        <div id="run_panel">
+            <div id="long_run">
+                <h1>挑戰組</h1>
+                <div>
+                    <p>開始時間</p>
+                    <h2>(TIME)</h2>
+                    <p>經過時間</p>
+                    <h2>(TIME)</h2>
+                    <button class="start_button">開始</button>
+                </div>
+            </div>
+            <div id="short_run">
+                <h1>樂活組</h1>
+                <div>
+                    <p>開始時間</p>
+                    <h2>(TIME)</h2>
+                    <p>經過時間</p>
+                    <h2>(TIME)</h2>     
+                    <button class="start_button">開始</button>
+                </div>
+            </div>
+        </div>
 
-        ?>
-        <p>這邊放登記、補給站狀況、時間等等</p>
-        <h1>1</h1>
-        <p>這邊放登記、補給站狀況、時間等等</p>
-        <h1>1</h1>
-        <p>這邊放登記、補給站狀況、時間等等</p>
-        <h1>1</h1>
-        <p>這邊放登記、補給站狀況、時間等等</p>
-        <h1>1</h1>
-        <p>這邊放登記、補給站狀況、時間等等</p>
-        <h1>1</h1>
-        <p>這邊放登記、補給站狀況、時間等等</p>
-        <h1>1</h1>
-        <p>這邊放登記、補給站狀況、時間等等</p>
-        <h1>1</h1>
-        <p>這邊放登記、補給站狀況、時間等等</p>
+
     </div>
     <div id="personnel">
         <h1>2</h1>

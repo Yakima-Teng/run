@@ -1,3 +1,50 @@
+<?php
+require_once 'php/core/init.php';
+
+if(Input::exist('post')){
+
+    $validate = new Validate();
+    $validation = $validate->check($_POST, array(
+        'uid'=>[Validate::REQUIRED=>true],
+        'pwd'=>[Validate::REQUIRED=>true]
+    ));
+
+    if ($validate->passed()) {
+        $uid = escape(Input::get('uid'));
+        $password =escape(Input::get('pwd'));
+
+        $staff = new Staff($uid);
+
+        if ($staff->exist()) {
+            if ($staff->login($password)) {
+                if ($staff->auth(Staff::ADMIN)) {           //1
+                    Session::set('user', 'admin');
+                    echo "ADMIN";
+                    exit();
+                } elseif ($staff->auth(Staff::RECORDER)) {  //2
+                    Session::set('user', 'recorder');
+                    echo "RECORDER";
+                    exit();
+                } else {
+                    Session::set('user', 'normal');         //3
+                    echo "NORMAL";
+                    exit();
+                }
+            } else {
+                echo "WRONG_PWD";
+                exit();
+            }
+        }
+    }else{
+        print_r($validate->getError());
+        exit();
+    }
+
+
+}
+?>
+
+
 <html>
 <head>
     <title>登入</title>
@@ -12,19 +59,23 @@
                 event.preventDefault();
                 // console.log($(this).serialize());
                 $("input").removeClass('error');
-                $.post("php/login.php", $(this).serialize(), function (result) {
+                $.post("", $(this).serialize(), function (result) {
                     console.log(result);
-                    if(result == "SUCCESS"){
+                    if(result == "ADMIN"){
                         window.location.href = "panel.php";
                     }else if(result == "WRONG_PWD"){
                         $("#pwd").addClass("error");
                         alert("密碼錯誤")
-                    }else if(result == "NOT_ADMIN"){
-                        $("#uid").addClass("error");
-                        alert("非管理員")
+                    }else if(result == "RECORDER"){
+                        window.location.href = "record.php";
                     }else if(result == "NO_USER"){
                         $("#uid").addClass("error");
-                        alert("無此帳號，請洽主辦單位")
+                        alert("無此帳號，請洽主辦單位");
+                    }else{
+                        $("#uid").addClass("error");
+                        $("#pwd").addClass("error");
+                        alert("尚未輸入完全");
+
                     }
                     $("#pwd").val("");
                 });

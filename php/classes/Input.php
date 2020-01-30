@@ -34,7 +34,7 @@ class Input
         } else if (isset($_GET[$field])) {
             return $_GET[$field];
         }else{
-            return '';
+            return false;
         }
     }
 }

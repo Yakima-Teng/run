@@ -48,4 +48,18 @@ class Staff{
             return false;
         }
     }
+
+    public function search($keyword){
+        $sql = " SELECT * FROM `staff` 
+        WHERE 
+        `name`LIKE ? 
+        or
+        `tel` LIKE ?
+        or 
+        `uid` LIKE ?
+        ORDER BY `name` ASC";
+ 
+        return $this->_db->query($sql, ['%'. $keyword.'%' ,'%'. $keyword.'%' ,'%'. $keyword.'%']);
+     }
+
 }

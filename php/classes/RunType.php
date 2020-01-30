@@ -173,6 +173,20 @@ class RunType
             );
     }
 
+
+    public function getStartTime($id=null){
+        if(is_null($id)){
+            $id = $this->_typeID;
+        }
+        if($this->_db->select('run_type', ['id','=',$id])->firstResult()->started == true){
+            return $this->_db->firstResult()->start_time;
+        }else{
+            return false;
+        }
+        
+
+    }
+
     public function rank()
     {
         //

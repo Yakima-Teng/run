@@ -127,5 +127,17 @@ class Runner{
         return $toReturn;
     }
    
+    public function search($keyword){
+       $sql = " SELECT * FROM `runner` 
+       WHERE 
+       `name`LIKE ? 
+       or
+       `number` LIKE ?
+       or 
+       `run_group`=(SELECT `number` FROM `run_group` WHERE `name` like ? ) 
+       ORDER BY `run_type` ASC, `number` ASC";
+
+       return $this->_db->query($sql, ['%'. $keyword.'%' ,'%'. $keyword.'%' ,'%'. $keyword.'%']);
+    }
 
 }

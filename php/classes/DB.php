@@ -218,6 +218,7 @@ class DB
 
     }
 
+
     public function insert($table, $params = array())
     {
 

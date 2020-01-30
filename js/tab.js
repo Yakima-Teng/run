@@ -1,7 +1,7 @@
 $(document).ready(function(){
     //set tab active for the first
     $(".sidebar li:first").addClass("active");
-    $(".main div").hide();
+    $(".main>div").hide();
     $(".main div:first").show();
     
     //if clicked
@@ -12,7 +12,7 @@ $(document).ready(function(){
             $(this).addClass("active");
             
             //hide all in class
-            $(".main div").hide();
+            $(".main>div").hide();
             $("#"+toShow).fadeIn('slow');
         }
     })
