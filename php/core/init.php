@@ -34,8 +34,8 @@ $GLOBALS['config']=array(       //$GLOBALS 表示他是全域變數
     'mysql'=>array(
         'host'=>'127.0.0.1',    //  127.0.0.1表示連接到本地伺服器
         'db'=>'2020',         //  到時候每一年都會創造一個新的資料庫
-        'username'=>'root',     //  資料庫登入帳密
-        'password'=>''
+        'username'=>'root',     //  資料庫登入帳密 $password = "QiMeiRun"; $dbname= "id9515500_runner";
+        'password'=>''  
     ),
     'tables'=>array(
         'runner'=>'runner',     //跑者資料庫

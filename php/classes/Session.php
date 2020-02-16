@@ -12,4 +12,8 @@ class Session{
             return false;
         }
     }
+
+    public static function exist($field){
+        return isset($_SESSION[$field]);
+    }
 }

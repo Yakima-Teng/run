@@ -39,7 +39,7 @@ class Validate{
     const EXIST         =5;
     const MATCH         =6;
     const TYPE          =7;
-    const validationMsg = ['','required', 'exceed max', 'below min','not unique','not exist','not match','wrong type'];
+    const validationMsg = array('','required', 'exceed max', 'below min','not unique','not exist','not match','wrong type');
 
     //types of TYPE
     const NUMBER        =1;

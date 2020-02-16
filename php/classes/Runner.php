@@ -25,7 +25,12 @@ class Runner{
         return self::$_instance;
     }
 
-    public function getData($param){
+
+    public function getDataById($id){
+        return $this->_db->select('runner', $condition=['id','=',$id])->firstResult();
+    }
+
+    public function getDataByNumber($param){
         $column="";
         if(is_numeric($param)){
             //如果是背號
@@ -33,8 +38,11 @@ class Runner{
         }else{
             $column="name";
         }
-
         return $this->_db->select('runner', $condition=[$column,'=',$param])->firstResult();
+    }
+
+    public function altered($number){
+        return $this->getDataByNumber($number)->altered;
     }
 
     public function add($info){
@@ -42,9 +50,9 @@ class Runner{
         $this->_db->insert('runner',$newInfo);
     }
 
-    public function update($number, $info){
+    public function update($id, $info){
         $newInfo = $this->setInfo($info);
-        $this->_db->update('runner',$newInfo, $condition = ['number','=',$number]);
+        $this->_db->update('runner',$newInfo, $condition = ['id','=',$id]);
     }
 
     public function remove($number){
@@ -58,11 +66,20 @@ class Runner{
          * 因為根據不同結果會有不同UI畫面
          * 因此放在架構中其他模組內進行
          */
+        
+         $run_type = new RunType(
+            $this->_db->select('runner', $condition=['number','=',$number])->firstResult()->run_type
+         );
+         $start_time = new DateTime($run_type->getStartTime());
+         $now = new DateTime();
+
+         $run_time = $now->diff($start_time)->format('%H:%I:%S');
 
         $this->_db->update(
             'runner',
             $param = array(
-                'end_time'=>date("Y-m-d H:i:s", time()),
+                'end_time'=>$now->format("Y-m-d H:i:s"),
+                'run_time'=>$run_time,
                 'altered'=>'1'
             ),
             $condition = array('number','=',$number)
@@ -83,11 +100,14 @@ class Runner{
 
         if(array_key_exists('name', $info)){
             $toReturn['name']=$info['name'];
+            unset($info['name']);
         }
 
         if(array_key_exists('number', $info)){
             //uniqueness should be validated in the input level
             $toReturn['number']=$info['number'];
+            unset($info['number']);
+
         }
 
         if(array_key_exists('run_group', $info)){
@@ -108,12 +128,16 @@ class Runner{
                     $rgNum = $rg->add($rgName);
                 }
                 $toReturn['run_group'] = $rgNum;
+                unset($info['run_group']);
+
             }
         }
 
         if(array_key_exists('run_type', $info)){
             $rt = new RunType();
             $toReturn['run_type']  =  $rt->setID($info['run_type']);
+            unset($info['run_type']);
+
         }
 
         if(array_key_exists('altered', $info)){
@@ -122,9 +146,13 @@ class Runner{
             }else{
                 $toReturn['altered'] = 0;
             }
-        }
+            unset($info['altered']);
 
-        return $toReturn;
+        }
+        unset($info['id']);
+
+
+        return array_merge($info, $toReturn);
     }
    
     public function search($keyword){

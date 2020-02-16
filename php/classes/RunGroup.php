@@ -55,9 +55,19 @@ class RunGroup
         return $number;
     }
 
+    public function getAll(){
+        return $this->_db->select('run_group')->getResults();
+
+    }
+
     public function getNum($name)
     {
         return $this->_db->select('run_group', ['name', '=', $name])->firstResult()->number;
+    }
+
+    public function getName($number)
+    {
+        return $this->_db->select('run_group', ['number', '=', $number])->firstResult()->name;
     }
 
     private function generateGroupNumber()

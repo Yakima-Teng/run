@@ -34,6 +34,10 @@ if(Input::exist('post')){
                 echo "WRONG_PWD";
                 exit();
             }
+        }else{  //無使用者
+            echo "NO_USER";
+            exit();
+
         }
     }else{
         print_r($validate->getError());

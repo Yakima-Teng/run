@@ -6,12 +6,28 @@ html{
     min-height: 100%;
 }
 
+.center {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 30%;
+    height: 90%;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+
 input {
     position:relative;
     font-size: 1.4em;
     background: linear-gradient(21deg, #f9fdff, #bddff3);
     padding: 3px;
-    display: inline-block;
+    /* display: inline-block; */
     border-radius: 9999em;
     padding:5px 15px; 
     border:0 none;
@@ -46,20 +62,26 @@ span{
 }
 .myButton:hover {
     background-color:#5cbf2a;
+
 }
 .myButton:active {
     position:relative;
     top:1px;
+
 }
 
 .logo{
-    width:20%; 
+    width:75%; 
     height : auto
 }
 
 @media only screen and (max-width: 800px) {
+
+    .center{
+        width: 50%;
+    }
     .logo{
-        width:50%;
+        width:90%;
         height: auto;
     }
 } 

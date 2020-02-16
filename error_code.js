@@ -1,1 +1,1 @@
-$errMsg = {"404_STARTED": "已開始" }
+$errMsg = {"404_STARTED", "EXIST_NUM", }

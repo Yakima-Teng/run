@@ -107,7 +107,7 @@ class DB
 
     public function firstResult()
     {
-        return $this->_results[0];
+        return isset($this->_results[0])?$this->_results[0]:false ;
     }
 
     public function getResults(){
@@ -254,6 +254,7 @@ class DB
      */
     public function update($table, $params, $condition=array())
     {
+
 
         $paramToQuery = array();    //the array to send to the query function
                                     // {condition value}, 

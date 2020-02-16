@@ -122,11 +122,13 @@ class RunType
         if (is_null($id)) {
             $id = $this->_typeID;
         }
+
+        $now  = new DateTime();
         $this->_db
             ->update(
                 'run_type',
                 $param = array(
-                    'start_time' => date("Y-m-d H:i:s", time()),
+                    'start_time' => $now->format("Y-m-d H:i:s") ,
                     'started' => 1
                 ),
                 $condition = array('id', '=', $id)

@@ -7,11 +7,12 @@ body{
 }
 
 /****************************
-Table
+Table of Content
 
 Overall
     run_panel
 
+Table
 Personnel
 Runner
 Contact
@@ -49,4 +50,58 @@ Contact
 .start_button{
     display: inline;
     
+}
+
+/****************************
+
+        Table
+                CSS for all tables
+*****************************/
+
+table{
+    border-collapse: collapse;
+
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid rgb(232, 234, 255);
+}
+
+tbody tr:hover{
+    background-color: rgb(220, 239, 247)
+}
+
+
+
+
+/****************************
+
+        Runner
+
+*****************************/
+.grid{
+    width:100%;
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    column-gap: 5%;
+}
+
+#r_insert{
+    margin-top: 10%;
+    transform: scale(1.3);
+    font-family: inherit;
+}
+
+.form>form{
+    padding-top: 2vh;
+}
+
+fieldset div{
+    padding-top: 30px;
+}
+
+fieldset label{
+    padding-right: 15px;
 }
