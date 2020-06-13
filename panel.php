@@ -64,9 +64,72 @@ ob_start();
                     </div>
                 </div>
             </div>
+            <div id="record">
+                <input id="record_num" type="number" placeholder="請輸入跑者ID">
+                <button id="record_button">登錄</button>
+            </div>
         </div>
         <div id="staff" class="grid">
+        <div class="data">
+                <h1>工人搜尋</h1>
+                <input type="text" id="staff_searchbox">
+                <table id="staff_table">
+                    <thead>
+                        <tr>
+                            <th field="name">姓名</th>
+                            <th field="staff_group">工作分配</th>
+                            <th field="tel">手機</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>    
+            </div>
+            <div class="form">
+                <input id="s_insert" type="button" value="新增">
+                <form autocomplete="off" id="staff_form">
+                    <fieldset>
+                        <legend style="margin:10px">工人資訊</legend>
+                        <input type="hidden" id="s_id" name="id" value="">
+                        <input id="s_action" type="hidden" name="action" value="">
+                        <div>
+                            <label for="name">姓名</label>
+                            <input autocomplete="off" type="text" name="name" id="s_name">
+                        </div>
+                        <div>
+                            <label for="staff_group">工作</label>
+                            <div id="staff_group_holder">
+                                <input type="text" name="staff_group" id="s_staff_group">
+                                <div id="staff_group_sug">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="tel">手機</label>
+                            <input autocomplete="off" type="tel" name="tel" id="s_tel">
+                        </div>
+                        <div>
+                            <label for="password">密碼</label>
+                            <input autocomplete="off" type="password" name="pwd" id="s_pwd">
 
+                        </div>
+
+                        <div id="r_buttons">
+                            <!-- bad naming -->
+                            <button id="r_add"    type="submit" value="insert">新增</button> 
+                            <button id="r_update" type="submit" value="update">更新</button>
+                            <button id="r_delete" type="submit" value="delete">刪除</button>
+
+                        </div>
+                        
+
+                        
+                        
+                        
+                        
+                    </fieldset>
+                </form>
+            </div>
         </div>
         <div id="runner" class="grid">
             <div class="data">
