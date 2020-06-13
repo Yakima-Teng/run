@@ -257,7 +257,7 @@ class DB
 
 
         $paramToQuery = array();    //the array to send to the query function
-                                    // {condition value}, 
+                                    // {condition value}, :)
 
         //between SET and WHERE
         $alterString = "";
