@@ -97,6 +97,7 @@ class DB
                 $this->_error = true;
 
                 echo "execute fail";
+                print_r($this->_query->errorInfo());
 
             }
 

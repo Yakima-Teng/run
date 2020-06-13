@@ -6,18 +6,24 @@ if(Session::exist('user') && Session::get('user')=='admin'){
 
         $toSearch = Input::get('text');
 
-
+        $searchType;
         if($toSearch!=""){
             //搜尋跑者
             if(Input::get('action')=='runner'){
-                $result = Runner::singleton()->search($toSearch)->getResults();
-                echo json_encode($result, JSON_UNESCAPED_UNICODE);
+                $searchType = Runner::singleton();
+
     
     
             //搜尋工作人員
-            }elseif(Input::get('action')=='staff'){
-    
+            }elseif(Input::get('action')=='run_group'){
+                $searchType = RunGroup::singleton();
             }
+            elseif(Input::get('action')=='staff'){
+                $searchType = new Staff();   //staff is not singleton, bad design QQ
+            }
+
+            $result = $searchType->search($toSearch)->getResults();
+            echo json_encode($result, JSON_UNESCAPED_UNICODE);
         }
 
     }

@@ -5,6 +5,7 @@ require_once("../core/init.php");
 $returnData=[];
 
 if (Session::exist('user') && Session::get('user') == 'admin') {
+    // print_r($_POST);
     if (Input::exist()) {
 
         /****************************
@@ -26,7 +27,8 @@ if (Session::exist('user') && Session::get('user') == 'admin') {
                 'number' => array(
                     Validate::REQUIRED => true,
                     Validate::MAX => 5,
-                    Validate::MIN => 3
+                    Validate::MIN => 3,
+                    Validate::TYPE=>Validate::NUMBER
                 ),
                 'name' => array(
                     Validate::REQUIRED => true,
@@ -81,6 +83,9 @@ if (Session::exist('user') && Session::get('user') == 'admin') {
     
             }
 
+
+
+
         /****************************
          * 
          *          INSERT
@@ -121,6 +126,30 @@ if (Session::exist('user') && Session::get('user') == 'admin') {
             }else{
                 $returnData['msg']= "VAL_ERR";
                 $returnData['field'] = $v->getError();
+
+            }
+
+
+
+
+
+
+        /****************************
+         * 
+         *          Delete
+         * 
+         ***************************/
+
+        }elseif(Input::get('action')=='delete'){
+            $id=Input::get('id');
+            $r = Runner::singleton();
+            $r->remove($id);
+
+            //檢查是否移除
+            if($r->getDataById($id)==false){
+                $returnData['msg']= "SUCCESS";
+            }else{
+                $returnData['msg']= "RMV_ERR";
 
             }
         }

@@ -29,7 +29,7 @@ ob_start();
         <span>路跑管理系統</span>
         <ul>
             <li class id="li_overall"><a href="#">總覽</a></li>
-            <li class id="li_personnel"><a href="#">工人</a></li>
+            <li class id="li_staff"><a href="#">工人</a></li>
             <li class id="li_runner"><a href="#">跑者</a></li>
             <li class id="li_contact"><a href="#">通訊錄</a></li>
             <li class id="li_logout"><a href="php/logout.php">登出</a></li>
@@ -65,25 +65,7 @@ ob_start();
                 </div>
             </div>
         </div>
-        <div id="personnel">
-            <h1>2</h1>
-            <p>這邊管理工作人員權限</p>
-            <h1>2</h1>
-            <p>這邊管理工作人員權限</p>
-            <h1>2</h1>
-            <p>這邊管理工作人員權限</p>
-            <h1>2</h1>
-            <p>這邊管理工作人員權限</p>
-            <h1>2</h1>
-            <p>這邊管理工作人員權限</p>
-            <h1>2</h1>
-            <p>這邊管理工作人員權限</p>
-            <h1>2</h1>
-            <p>這邊管理工作人員權限</p>
-            <h1>2</h1>
-            <p>這邊管理工作人員權限</p>
-            <h1>2</h1>
-            <p>這邊管理工作人員權限</p>
+        <div id="staff" class="grid">
 
         </div>
         <div id="runner" class="grid">
@@ -108,30 +90,37 @@ ob_start();
             </div>
             <div class="form">
                 <input id="r_insert" type="button" value="新增">
-                <form id="runner_form">
+                <form autocomplete="off" id="runner_form">
                     <fieldset>
                         <legend style="margin:10px">跑者資訊</legend>
-                        <input type="hidden" name="action" value="">
                         <input type="hidden" id="r_id" name="id" value="">
+                        <input id="r_action" type="hidden" name="action" value="">
                         <div>
                             <label for="number">背號</label>
-                            <input type="text" name="number" id="r_number">
+                            <input autocomplete="off" type="text" name="number" id="r_number">
                         </div>
                         <div>
                             <label for="run_type">組別</label>
-                            <input type="text" name="run_type" id="r_run_type">
+                            <select name="run_type" id="r_run_type">
+                                <option value="1">挑戰組</option>
+                                <option value="2">樂活組</option>
+                            </select>
                         </div>
                         <div>
                             <label for="name">姓名</label>
-                            <input type="text" name="name" id="r_name">
+                            <input autocomplete="off" type="text" name="name" id="r_name">
                         </div>
                         <div>
                             <label for="run_group">跑團</label>
-                            <input type="text" name="run_group" id="r_run_group">
+                            <div id="run_group_holder">
+                                <input type="text" name="run_group" id="r_run_group">
+                                <div id="run_group_sug">
+                                </div>
+                            </div>
                         </div>
                         <div>
                             <label for="tel">手機</label>
-                            <input type="tel" name="tel" id="r_tel">
+                            <input autocomplete="off" type="tel" name="tel" id="r_tel">
                         </div>
                         <div>
                             <label for="gender">姓別</label>
@@ -140,8 +129,12 @@ ob_start();
                                 <option value="0">女</option>
                             </select>
                         </div>
-                        <div>
-                            <input id="r_submit" type="submit" value="yee">
+                        <div id="r_buttons">
+                            <!-- bad naming -->
+                            <button id="r_add"    type="submit" value="insert">新增</button> 
+                            <button id="r_update" type="submit" value="update">更新</button>
+                            <button id="r_delete" type="submit" value="delete">刪除</button>
+
                         </div>
                         
 

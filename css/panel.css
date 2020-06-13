@@ -70,7 +70,8 @@ th, td {
 }
 
 tbody tr:hover{
-    background-color: rgb(220, 239, 247)
+    background-color: rgb(220, 239, 247);
+    cursor: pointer;
 }
 
 
@@ -84,7 +85,7 @@ tbody tr:hover{
 .grid{
     width:100%;
     display: grid;
-    grid-template-columns: 3fr 2fr;
+    grid-template-columns: 3fr 1fr;
     column-gap: 5%;
 }
 
@@ -94,14 +95,48 @@ tbody tr:hover{
     font-family: inherit;
 }
 
+
 .form>form{
-    padding-top: 2vh;
+    padding-top: 2vh;    
+    position: fixed;
+
 }
 
-fieldset div{
+fieldset>div{
     padding-top: 30px;
 }
 
 fieldset label{
     padding-right: 15px;
+}
+
+#run_group_holder{
+    position: relative;
+    display: inline-block;
+    z-index: 99;
+}
+
+#run_group_sug{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top:100%;
+}
+
+#run_group_sug>div{
+    background-color: azure;
+    margin-left: 4px;
+    padding:5px;
+    cursor: pointer;
+}
+
+#run_group_sug>div:hover{
+    background-color: rgb(182, 243, 243);
+
+}
+
+#r_delete{
+    float: right;
+    background: linear-gradient(21deg, #f9fdff, #ffa59f);
+
 }

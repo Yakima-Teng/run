@@ -36,6 +36,17 @@ class RunGroup
         }
     }
 
+    public function search($keyword){
+        $sql = " SELECT * FROM `run_group` 
+        WHERE 
+        `name`LIKE ? 
+        or
+        `number` LIKE ?
+        ORDER BY `name` ASC";
+ 
+        return $this->_db->query($sql, ['%'. $keyword.'%' ,'%'. $keyword.'%']);
+     }
+
     public function add($name, $paramNumber = "")
     {
         //if number used

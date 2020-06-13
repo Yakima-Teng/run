@@ -44,7 +44,7 @@ header>span{
     height: 100px;
 }
 
-input{
+input, button{
     /* font-size: 1.4em; */
     background: linear-gradient(21deg, #f9fdff, #bddff3);
     padding: 3px;
@@ -59,7 +59,7 @@ input{
     transition: 0.15s all ease;
 }
 
-input:focus{    
+input:focus, button:focus{    
     outline: none;
     background: linear-gradient(21deg, #a0f5e0, #99c2f8);
     transform: scale(1.15);
@@ -71,7 +71,7 @@ input.error{
     background: linear-gradient(21deg, #f87878, #f8e9ce);
 }
 
-input[type="submit"]{
+input[type="submit"], button{
     font-family: inherit;
 }
 

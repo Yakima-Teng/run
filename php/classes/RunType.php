@@ -160,7 +160,8 @@ class RunType
             ->update(
                 'runner',
                 $param = array(
-                    'end_time' => 'NULL',
+                    'end_time' => null,
+                    'run_time'=> null,
                     'altered' => '0'
                 ),
                 $condition = array('run_type', '=', $id)
@@ -168,7 +169,7 @@ class RunType
             ->update(
                 'run_type',
                 $param = array(
-                    'start_time' => 'NULL',
+                    'start_time' => null,
                     'started' => '0'
                 ),
                 $condition = array('id', '=', $id)

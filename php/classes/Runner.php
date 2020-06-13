@@ -55,8 +55,8 @@ class Runner{
         $this->_db->update('runner',$newInfo, $condition = ['id','=',$id]);
     }
 
-    public function remove($number){
-        $this->_db->delete('runner', ['number','=',$number]);
+    public function remove($id){
+        $this->_db->delete('runner', ['id','=',$id]);
     }
 
     public function finish($number){
@@ -156,16 +156,20 @@ class Runner{
     }
    
     public function search($keyword){
+
+        //有bug，無法選到有相同關鍵字的不同跑團
        $sql = " SELECT * FROM `runner` 
        WHERE 
        `name`LIKE ? 
        or
        `number` LIKE ?
+       or
+       `tel` LIKE ?
        or 
        `run_group`=(SELECT `number` FROM `run_group` WHERE `name` like ? ) 
        ORDER BY `run_type` ASC, `number` ASC";
 
-       return $this->_db->query($sql, ['%'. $keyword.'%' ,'%'. $keyword.'%' ,'%'. $keyword.'%']);
+       return $this->_db->query($sql, ['%'. $keyword.'%' ,'%'. $keyword.'%','%'. $keyword.'%' ,'%'. $keyword.'%']);
     }
 
 }

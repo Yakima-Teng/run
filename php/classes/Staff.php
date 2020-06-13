@@ -9,7 +9,7 @@ class Staff{
     const RECORDER  = 2;    //可登記完賽
     const NORMAL    = 3;    //補給站、繞行etc
 
-    public function __construct($uid)
+    public function __construct($uid=null)
     {
         $this->_db = DB::singleton();
         $this->_uid = $uid;
