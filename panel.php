@@ -97,7 +97,7 @@ ob_start();
                             <input autocomplete="off" type="text" name="name" id="s_name">
                         </div>
                         <div>
-                            <label for="staff_group">工作</label>
+                            <label for="staff_group">工作地點</label>
                             <div id="staff_group_holder">
                                 <input type="text" name="staff_group" id="s_staff_group">
                                 <div id="staff_group_sug">

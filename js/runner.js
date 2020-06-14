@@ -63,6 +63,7 @@ $(document).ready(function () {
      ************************/
     //這邊寫得有夠爛，看到的人幫我改一下ㄎㄎ
     //主要是要把表格內的文字轉移到右邊的form進行修改
+    //未來嘗試用vue.js
     $("#runner_table>tbody").on('click', 'tr', function () {
 
         buttonShow(0,1,1);
