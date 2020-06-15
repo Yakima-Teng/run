@@ -3,7 +3,7 @@
 class StaffGroup
 {
 
-    //al
+    
     private $_db;
 
     private function __construct(){
@@ -11,4 +11,22 @@ class StaffGroup
     }
 
     private static $_instance = null;
+
+    public function singleton(){
+        if(!isset(self::$_instance)){
+            self::$_instance = new StaffGroup();
+        }
+        return self::$_instance;
+    }
+
+
+    public function getTypes(){
+        return $this->_db->select('staff_type')->getResults();
+    }
+
+    public function getTypes(){
+        return $this->_db->select('staff_group')->getResults();
+    }
+
+
 }

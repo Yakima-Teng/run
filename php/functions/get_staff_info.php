@@ -17,5 +17,5 @@ if(Input::exist()){
         $staff_group[$value->id] = [$value->name, $value->staff_type];
     }
 
-    echo json_encode(array($staff_type, $staff_group), JSON_UNESCAPED_UNICODE)
+    echo json_encode(array($staff_type, $staff_group), JSON_UNESCAPED_UNICODE);
 }
